@@ -1,0 +1,2 @@
+Max Unambiguous Range: 7500.000000
+Sampling Frequency: 300030.003000

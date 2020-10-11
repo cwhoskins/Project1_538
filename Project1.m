@@ -16,6 +16,7 @@ c = 3 * 10 ^ 8;
 initial_pos = [2500 2500];
 velocity = [10 0];
 
+file_output = fopen('output.txt', 'w+');
 
 %Calculate Max Unambigous Range
 max_unambiguous_range = MaxUnambiguousRange(prf);
@@ -29,6 +30,7 @@ N = floor(((1/prf) / pulse_width) - 1);
 M = cpi * prf;
 %Create Data Array
 data = zeros(N, M, length(freq));
+rdm = zeros(N, M, length(freq));
 
 %Loop through all frequencies
 for f = 1:length(freq)
@@ -52,35 +54,19 @@ for f = 1:length(freq)
         %Loop through the scatterers
         for s = 1:length(scatterer_sample)
             %Add received signal to the pre-determined spots
-           data(scatterer_sample(s), m, f) = data(scatterer_sample(s), m, f) + scat_sig;
+           data(scatterer_sample(s), m, f) = data(scatterer_sample(s), m, f) + scat_sig(s);
         end
         
         %Generate noise
         noise_power_w = NoisePower(rx_bandwidth, rx_noise);
         noise_power_db = 10*log10(noise_power_w);
-        noise = wgn(N,1,noise_power_6,'complex');
+        noise = wgn(N,1,noise_power_db,'complex');
         %Add noise to current column
         data(:, m, f) = data(:, m, f) + noise;
     end
+    test = fft(data(scatterer_sample(1), :, f));
+    fftshift(test);
+    test_x = 1:M;
+    test = 10 .* log10(abs(test));
+    plot(test_x, test);
 end
-
-%Potentially relevant stuff from HW2 that hasn't been implemented
-scatterer_delay = (2 * scatterer_range) / c;
-scatterer_sample = ceil(scatterer_delay / pulse_width);
-fprintf(file_output, 'Return Sample # %d\n', scatterer_sample);
-fprintf(file_output, 'Signal Power: %e W\n', signal_power);
-signal = zeros(N, 1);
-signal(scatterer_sample) = sqrt(signal_power);
-
-noise_power_6 = NoisePower(rx_bandwidth, rx_noise_6);
-noise_power_6 = 10*log10(noise_power_6);
-fprintf(file_output, 'Noise Power: %f dB\n', noise_power_6);
-noise = wgn(N,1,noise_power_6,'complex');
-
-range_profile = signal + noise;
-sample_time = 1:N;
-plot(sample_time, abs(range_profile));
-xlabel('Sample #');
-ylabel('Received Signal');
-title('Range Profile');
-saveas(gcf,'Problem6.png');
