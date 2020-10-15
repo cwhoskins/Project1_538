@@ -41,7 +41,7 @@ for f = 1:length(freq)
         scatterer_range = initial_pos + ((m / M) * cpi .* velocity);
         %Check if the signal will be recieved before the next pulse
         if(max(scatterer_range) > max_unambiguous_range)
-           fprintf('Error: You have to develop logic to handle unambiguous rnages'); 
+           fprintf('Error: You have to develop logic to handle unambiguous ranges'); 
         end
         %Calculate Received Power from all scatterers
         signal_power = RadarRange(tx_power, tx_gain, rx_gain, current_wavelength, loss, rcs, scatterer_range);
@@ -64,9 +64,12 @@ for f = 1:length(freq)
         %Add noise to current column
         data(:, m, f) = data(:, m, f) + noise;
     end
-    test = fft(data(scatterer_sample(1), :, f));
-    fftshift(test);
-    test_x = 1:M;
-    test = 10 .* log10(abs(test));
-    plot(test_x, test);
+    
+    for n = 1:N
+        rdm(n,:,f) = fftshift(abs(fft(data(n, :, f))));
+    end
+    rdm(:, :, f) = 10 .* log10(rdm(:, :, f));
+    axis_range = ((1:N) ./ N) .* max_unambiguous_range;
+    axis_velocity = ((1:M) ./ M) .* MaxUnambiguousVelocity(current_wavelength, prf);
+    surf(axis_velocity, axis_range, rdm(:, :, f));
 end
