@@ -1,2 +1,31 @@
-Max Unambiguous Range: 7500.000000
-Sampling Frequency: 300030.003000
+Max Unambiguous Range: 7500 m
+Sampling Frequency: 300.03 KHz
+Range Resolution: 499.95 m
+
+Frequency: 500 MHz
+Max Velocity: 6000 m/s
+Velocity Resolution: 10 m/s
+Pre-FFT SNR: 58.8818 dB
+Predicted Post-FFT SNR: 86.6633 dB
+Measured Post-FFT SNR: 86.5997 dB
+
+Frequency: 1000 MHz
+Max Velocity: 3000 m/s
+Velocity Resolution: 5 m/s
+Pre-FFT SNR: 52.8612 dB
+Predicted Post-FFT SNR: 80.6427 dB
+Measured Post-FFT SNR: 80.6408 dB
+
+Frequency: 10000 MHz
+Max Velocity: 300 m/s
+Velocity Resolution: 0.5 m/s
+Pre-FFT SNR: 32.8612 dB
+Predicted Post-FFT SNR: 60.6427 dB
+Measured Post-FFT SNR: 60.6585 dB
+
+Frequency: 28000 MHz
+Max Velocity: 107.143 m/s
+Velocity Resolution: 0.178571 m/s
+Pre-FFT SNR: 23.918 dB
+Predicted Post-FFT SNR: 51.6995 dB
+Measured Post-FFT SNR: 51.71 dB
